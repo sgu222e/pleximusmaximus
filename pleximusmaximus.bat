@@ -8,7 +8,7 @@ REM I placed curl and libcurl.dll into the same path as the batch to keep it sim
 
 SETLOCAL EnableExtensions
 
-SET "PMSPATH=E:\Program Files (x86)\Plex\Plex Media Server"		REM Set you servers PMS Path Here!!!
+SET "PMSPATH=C:\Program Files (x86)\Plex\Plex Media Server"		REM Set you servers PMS Path Here!!!
 SET "PLEXWEB=http://127.0.0.1:32400/web/index.html"				REM This is the web url for the local plex web app, it should work as is, but may require an edit.
 
 REM Do Not Edit Below this line!!! This means you Julius.
@@ -58,6 +58,3 @@ start "" %EXENAME%
 goto end
 :end
 exit
-
-
-
