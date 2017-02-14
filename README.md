@@ -1,11 +1,7 @@
 # pleximusmaximus
-DO NOT USE YET
+Plex monitoring for Windows
 
-I built this thinking PMS ran as a service on Windows, it does not... standby
-
-Plex service monitoring for Windows
-
-Windows Batch File for monitoring Plex Server Service on Windows
+Windows Batch File for monitoring Plex Server on Windows
 Includes curl.exe and libcurl.dll
 
 Use at your own risk
@@ -14,7 +10,7 @@ To Use:
 
 1 - Download all files
 
-2 - Modify pleximusmaximus.bat with paths for your local server
+2 - Modify pleximusmaximus.bat with path for your local server
 
 3 - Create windows scheduled task to run every 5-10 minutes
 
