@@ -7,7 +7,7 @@ REM Requires curl.exe and libcurl.dll to function -> https://curl.haxx.se/downlo
 REM I placed curl and libcurl.dll into the same path as the batch to keep it simple and portable.
 
 SETLOCAL EnableExtensions
-SET "PMSPATH=X:\Program Files (x86)\Plex\Plex Media Server"		REM Set you servers PMS Path Here!!!
+SET "PMSPATH=E:\Program Files (x86)\Plex\Plex Media Server"		REM Set you servers PMS Path Here!!!
 
 REM Do Not Edit Below this line!!! This means you Julius.
 
@@ -31,7 +31,7 @@ goto web
 echo %PEXE% is stopped, unleash the restart dragons
 echo Starting Plex Media Server
 cd /d %PMSPATH%
-%EXENAME%
+start "" %EXENAME%
 goto end
 :erro
 echo Error please check your command.. hopefully you don't get this, seriously 
@@ -53,10 +53,10 @@ taskkill /F /IM "%PEXE%"
 ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
 echo Starting Plex Media Server
 cd /d %PMSPATH%
-%EXENAME%
+start "" %EXENAME%
 goto end
 :end
-REM exit
+exit
 
 
 
