@@ -1,4 +1,8 @@
 # pleximusmaximus
+DO NOT USE YET
+
+I built this thinking PMS ran as a service on Windows, it does not... standby
+
 Plex service monitoring for Windows
 
 Windows Batch File for monitoring Plex Server Service on Windows
