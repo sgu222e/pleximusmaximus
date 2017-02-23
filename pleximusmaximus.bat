@@ -19,6 +19,7 @@ SET LOGDIR=LOGS
 SET WORKDIR=%cd%
 SET EXENAME="Plex Media Server.exe"	REM This is the Plex Service name
 SET "PEXE=Plex Media Server.exe"	REM This is for Tasklist to work
+SET ERR=0
 
 REM This is where the work starts
 cd /d %WORKDIR%
@@ -27,10 +28,10 @@ FOR /F "tokens=1 delims=,  " %%x IN ('tasklist /NH /FO CSV /FI "IMAGENAME eq %PE
 goto stopped
 
 echo unknown status
-goto end
+goto endbad
 :trouble
 echo Oh noooo.. trouble, use manual intervention, or call someone you trust
-goto end
+goto endbad
 :started
 echo %PEXE% is started, keep calm and carry on
 goto web
@@ -41,10 +42,11 @@ echo Starting Plex Media Server
 cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
+SET /a "ERR=%ERR%+1"
 goto :DIRCHECK
 :erro
 echo Error please check your command.. hopefully you don't get this, seriously 
-goto end
+goto endbad
 :web
 REM Perform a sanity check on the web app, just incase the service is running but plex is still hung (not that way you dirty minded twit)
 cd /d %WORKDIR%
@@ -52,7 +54,7 @@ curl -I %PLEXWEB% | FIND "200 OK"
 if %ERRORLEVEL% == 1 goto webstop
 if %ERRORLEVEL% == 0 goto webok
 echo unknown status
-goto end
+goto endbad
 :webok
 echo All is well on the webfront, carry on
 goto end
@@ -66,6 +68,7 @@ echo Starting Plex Media Server
 cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
+SET /a "ERR=%ERR%+1"
 goto :DIRCHECK
 
 :DIRCHECK
@@ -82,7 +85,21 @@ goto :TRIMOLD
 :TRIMOLD
 REM Check for and remove any log directory older than 7 days
 forfiles.exe /p %WORKDIR% /s /d -7 /c "cmd /c rmdir /s /q @file"
-goto :END
+goto :CHECKERR
+
+:endbad
+Echo Something really bad happened
+SET ERR=9
+exit /b %ERR%
+
+:CHECKERR
+REM Check the error count, if 0 than all is well, else change the code in Task Scheduler
+IF NOT %ERR% == 0 goto :ENDFAIL
+goto :end
+
+:ENDFAIL
+REM Exit out and give an error indicating that something failed
+exit /b %ERR%
 
 :end
-exit
+exit /B 0
