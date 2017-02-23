@@ -21,6 +21,7 @@ SET EXENAME="Plex Media Server.exe"	REM This is the Plex Service name
 SET "PEXE=Plex Media Server.exe"	REM This is for Tasklist to work
 
 REM This is where the work starts
+cd /d %WORKDIR%
 FOR /F "tokens=1 delims=,  " %%x IN ('tasklist /NH /FO CSV /FI "IMAGENAME eq %PEXE%"') DO IF %%x == "%PEXE%" goto started
 
 goto stopped
@@ -39,12 +40,14 @@ echo %PEXE% is stopped, unleash the restart dragons
 echo Starting Plex Media Server
 cd /d %PMSPATH%
 start "" %EXENAME%
+cd /d %WORKDIR%
 goto :DIRCHECK
 :erro
 echo Error please check your command.. hopefully you don't get this, seriously 
 goto end
 :web
 REM Perform a sanity check on the web app, just incase the service is running but plex is still hung (not that way you dirty minded twit)
+cd /d %WORKDIR%
 curl -I %PLEXWEB% | FIND "200 OK"
 if %ERRORLEVEL% == 1 goto webstop
 if %ERRORLEVEL% == 0 goto webok
@@ -62,6 +65,7 @@ ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adju
 echo Starting Plex Media Server
 cd /d %PMSPATH%
 start "" %EXENAME%
+cd /d %WORKDIR%
 goto :DIRCHECK
 
 :DIRCHECK
@@ -71,6 +75,7 @@ goto :COPYLOG
 
 :COPYLOG
 REM Copy over last fail log to todays directory and affix time and date stamp
+cd /d %WORKDIR%
 move fail.log %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%\fail%date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%.log
 goto :TRIMOLD
 
