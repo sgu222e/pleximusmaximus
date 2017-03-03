@@ -15,7 +15,7 @@ Keep all files together
 Plex default: "C:\Program Files (x86)\Plex\Plex Media Server\Plex Media Server.exe")
 
 3 - Create windows scheduled task to run every 5-10 minutes  
-Select "Run whether user is logged in or not" to run silently in background
+Select "Run whether user is logged in or not" to run silently in background  
 Select "Run with highest privileges" to have full rights - You must have admin level access to the system
 
 4 - ???
