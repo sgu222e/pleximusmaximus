@@ -6,7 +6,7 @@ REM GPL v3
 REM Requires curl.exe and libcurl.dll to function -> https://curl.haxx.se/download.html (grab Win32 version and libcurl.dll)
 REM I placed curl and libcurl.dll into the same path as the batch to keep it simple and portable.
 
-SETLOCAL EnableExtensions	REM Leave this one alone
+REM SETLOCAL EnableExtensions	REM Leave this one alone
 
 SET "PMSPATH=C:\Program Files (x86)\Plex\Plex Media Server"		REM Set you servers PMS Path Here!!!
 SET "PLEXWEB=http://127.0.0.1:32400/web/index.html"				REM This is the web url for the local plex web app, it should work as is, but may require an edit.
@@ -36,7 +36,7 @@ goto endbad
 echo %PEXE% is started, keep calm and carry on
 goto web
 :stopped
-echo Plex Server Service not running>>fail.log
+echo Plex Server EXE not running - %time_stamp%>>fail.log
 echo %PEXE% is stopped, unleash the restart dragons
 echo Starting Plex Media Server
 cd /d %PMSPATH%
@@ -59,7 +59,7 @@ goto endbad
 echo All is well on the webfront, carry on
 goto end
 :webstop
-echo Plex Web App not responding>>fail.log
+echo Plex Web App not responding - %time_stamp%>>fail.log
 echo Web app not responding, must restart Plex Service!
 echo Terminating Plex Media Server
 taskkill /F /IM "%PEXE%"
