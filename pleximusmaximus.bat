@@ -19,6 +19,8 @@ SET LOGDIR=LOGS
 SET WORKDIR=%cd%
 SET EXENAME="Plex Media Server.exe"	REM This is the Plex Service name
 SET "PEXE=Plex Media Server.exe"	REM This is for Tasklist to work
+SET SNAKEEXE="PlexScriptHost.exe"   REM This is the Python sync service
+SET "SEXE="lexScriptHost.exe"   REM This is the Python sync service, for tasklist
 SET ERR=0
 
 REM This is where the work starts
@@ -57,7 +59,7 @@ echo unknown status
 goto endbad
 :webok
 echo All is well on the webfront, carry on
-goto end
+goto SNAKECHECK
 :webstop
 echo Plex Web App not responding - %time_stamp%>>fail.log
 echo Web app not responding, must restart Plex Service!
@@ -70,6 +72,35 @@ start "" %EXENAME%
 cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
 goto :DIRCHECK
+
+:SNAKECHECK
+REM Added to try and eliminate Python hung on sync tasks. I hate snakes, Jock - Indiana Jones
+cd /d %WORKDIR%
+curl -I %PLEXWEB% | FIND "503"
+if %ERRORLEVEL% == 1 goto SAULGOOD
+if %ERRORLEVEL% == 0 goto STPATRICK
+echo unknown status
+goto endbad
+:SAULGOOD
+echo Seems like Python hasnt locked up, carry on
+goto end
+:STPATRICK
+REM Kill Python, Kill PMS, Restart PMS
+echo Python is probably locked up - %time_stamp%>>fail.log
+echo Web app not responding, must restart Plex Service!
+echo Terminating Python executable
+taskkill /F /IM "%SEXE%" /T
+ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
+echo Terminating Plex Media Server
+taskkill /F /IM "%PEXE%" /T
+ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
+echo Starting Plex Media Server
+cd /d %PMSPATH%
+start "" %EXENAME%
+cd /d %WORKDIR%
+SET /a "ERR=%ERR%+1"
+goto :DIRCHECK
+
 
 :DIRCHECK
 if exist %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%\nul goto :COPYLOG
