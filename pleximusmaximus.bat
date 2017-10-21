@@ -20,7 +20,7 @@ SET WORKDIR=%cd%
 SET EXENAME="Plex Media Server.exe"	REM This is the Plex Service name
 SET "PEXE=Plex Media Server.exe"	REM This is for Tasklist to work
 SET SNAKEEXE="PlexScriptHost.exe"   REM This is the Python sync service
-SET "SEXE="lexScriptHost.exe"   REM This is the Python sync service, for tasklist
+SET "SEXE="PlexScriptHost.exe"   REM This is the Python sync service, for tasklist
 SET ERR=0
 
 REM This is where the work starts
