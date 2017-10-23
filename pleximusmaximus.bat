@@ -101,22 +101,30 @@ cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
 goto :DIRCHECK
 
+REM Insert remote ip:port check here
 
+REM Switching to simplified logging until we can use Event Logs
 :DIRCHECK
-if exist %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%\nul goto :COPYLOG
-mkdir %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%
-goto :COPYLOG
-
-:COPYLOG
-REM Copy over last fail log to todays directory and affix time and date stamp
-cd /d %WORKDIR%
-move fail.log %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%\fail%date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%.log
-goto :TRIMOLD
-
-:TRIMOLD
-REM Check for and remove any log directory older than 7 days
-forfiles.exe /p %WORKDIR% /s /d -7 /c "cmd /c rmdir /s /q @file"
+if exist %WORKDIR%\%LOGDIR%\nul goto :CHECKERR
+mkdir %WORKDIR%\%LOGDIR%
 goto :CHECKERR
+
+REM This is the old logging, leaving it in for later
+REM :DIRCHECK
+REM if exist %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%\nul goto :COPYLOG
+REM mkdir %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%
+REM goto :COPYLOG
+
+REM :COPYLOG
+REM Copy over last fail log to todays directory and affix time and date stamp
+REM cd /d %WORKDIR%
+REM move fail.log %WORKDIR%\%LOGDIR%%date:~-4,4%%date:~-7,2%%date:~-10,2%\fail%date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%.log
+REM goto :TRIMOLD
+
+REM :TRIMOLD
+REM Check for and remove any log directory older than 7 days
+REM forfiles.exe /p %WORKDIR% /s /d -7 /c "cmd /c rmdir /s /q @file"
+REM goto :CHECKERR
 
 :endbad
 Echo Something really bad happened
