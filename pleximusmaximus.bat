@@ -27,7 +27,7 @@ REM This is where the work starts
 cd /d %WORKDIR%
 FOR /F "tokens=1 delims=,  " %%x IN ('tasklist /NH /FO CSV /FI "IMAGENAME eq %PEXE%"') DO IF %%x == "%PEXE%" goto started
 
-goto stopped
+goto SNAKECHECK
 
 echo unknown status
 goto endbad
