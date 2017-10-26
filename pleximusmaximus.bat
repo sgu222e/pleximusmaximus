@@ -45,7 +45,7 @@ cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
-goto :DIRCHECK
+goto :web
 :erro
 echo Error please check your command.. hopefully you don't get this, seriously 
 goto endbad
@@ -71,7 +71,7 @@ cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
-goto :DIRCHECK
+goto :SNAKECHECK
 
 :SNAKECHECK
 REM Added to try and eliminate Python hung on sync tasks. I hate snakes, Jock - Indiana Jones
@@ -83,7 +83,7 @@ echo unknown status
 goto endbad
 :SAULGOOD
 echo Seems like Python hasnt locked up, carry on
-goto end
+goto DIRCHECK
 :STPATRICK
 REM Kill Python, Kill PMS, Restart PMS
 echo Python is probably locked up - %time_stamp%>>fail.log
