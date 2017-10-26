@@ -45,7 +45,7 @@ cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
-goto :web
+goto web
 :erro
 echo Error please check your command.. hopefully you don't get this, seriously 
 goto endbad
@@ -71,7 +71,7 @@ cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
-goto :SNAKECHECK
+goto SNAKECHECK
 
 :SNAKECHECK
 REM Added to try and eliminate Python hung on sync tasks. I hate snakes, Jock - Indiana Jones
@@ -99,7 +99,7 @@ cd /d %PMSPATH%
 start "" %EXENAME%
 cd /d %WORKDIR%
 SET /a "ERR=%ERR%+1"
-goto :DIRCHECK
+goto DIRCHECK
 
 REM Insert remote ip:port check here
 
