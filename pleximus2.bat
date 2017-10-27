@@ -22,6 +22,8 @@ SET EXENAME="Plex Media Server.exe"	REM This is the Plex Service name
 SET "PEXE=Plex Media Server.exe"	REM This is for Tasklist to work
 SET SNAKEEXE="PlexScriptHost.exe"   REM This is the Python sync service
 SET "SEXE="PlexScriptHost.exe"   REM This is the Python sync service, for tasklist
+SET MSNAME="Plex Media Scanner.exe"	REM This is the Plex Media Scanner
+SET "MSEXE=Plex Media Scanner.exe"	REM This is for Tasklist to work, for Media Scanner
 SET ERR=0
 
 REM This is where the work starts
@@ -121,6 +123,9 @@ taskkill /F /IM "%SEXE%" /T
 ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
 echo Terminating Python executable again, just incase
 taskkill /F /IM "%SEXE%" /T
+ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
+echo Terminating Plex Media Scanner
+taskkill /F /IM "%MSEXE%" /T
 ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
 echo Terminating Plex Media Server
 taskkill /F /IM "%PEXE%" /T
