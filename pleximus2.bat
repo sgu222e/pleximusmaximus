@@ -54,7 +54,7 @@ REM goto PMSCHECK
 
 :PMSCHECK
 FOR /F "tokens=1 delims=,  " %%x IN ('tasklist /NH /FO CSV /FI "IMAGENAME eq %PEXE%"') DO IF %%x == "%PEXE%" goto started
-echo PMS is not running - %time_stamp%>>fail.log
+echo PMS is not running - %date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%>>fail.log
 echo PMS is not running, must restart Plex Service!
 goto DASBOOT
 
@@ -79,7 +79,7 @@ goto endbad
 echo All is well on the webfront, carry on
 goto RMTCHECK
 :webstop
-echo Plex Web App not responding - %time_stamp%>>fail.log
+echo Plex Web App not responding - %date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%>>fail.log
 echo Web app not responding, must restart Plex Service!
 goto DASBOOT
 
@@ -95,7 +95,7 @@ goto endbad
 echo All is well on Remote server, carry on
 goto SNAKECHECK
 :rmtstop
-echo Remote server not responding - %time_stamp%>>fail.log
+echo Remote server not responding - %date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%>>fail.log
 echo Remote server not responding, must restart Plex Service!
 goto DASBOOT
 
@@ -113,12 +113,21 @@ echo Seems like Python hasnt locked up, carry on
 goto CHECKERR
 :STPATRICK
 REM Kill Python, Kill PMS, Restart PMS
-echo Python is probably locked up - %time_stamp%>>fail.log
+echo Python is probably locked up - %date:~-4,4%%date:~-7,2%%date:~-10,2%-%time_stamp%>>fail.log
 echo Web app not responding, Pythons fault, must restart Plex Service!
 goto DASBOOT
 
 :DASBOOT
 echo Terminating Python executable
+taskkill /F /IM "%SEXE%" /T
+ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
+echo Terminating Python executable again, just incase
+taskkill /F /IM "%SEXE%" /T
+ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
+echo Terminating Python executable again, just incase
+taskkill /F /IM "%SEXE%" /T
+ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
+echo Terminating Python executable again, just incase
 taskkill /F /IM "%SEXE%" /T
 ping 127.0.0.1 -n 10 > nul		REM This is effectively a sleep for 10 seconds, adjust as needed... or follow the rule above.
 echo Terminating Python executable again, just incase
